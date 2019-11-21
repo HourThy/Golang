@@ -1,0 +1,282 @@
+<script>
+    CheckSession();
+
+    function CheckSession() {
+        if (localStorage.getItem("username") == null) {
+            window.location.assign("/");
+        }
+    }
+</script>
+
+<div class="content">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="margin-top: 0px !important;">
+                        <div class="card-header card-header-success card-header-icon">
+                            <div class="row">
+                                <button class="btn btn-success" style="margin-right: 5px; width: 100px;" id="btnSelect"
+                                    onclick="SelectButton()">Select</button>
+                                <button id="btnAdd" class="btn btn-primary" onclick="AddRubmats()"
+                                    style="margin-right: 5px; width: 100px;">Add</button>
+                            </div>
+                            <br>
+                            <div class="row" id="rows_search">
+                                <div class="col-3">
+                                    <input class="form-control text-center" type="text" id="findMachno"
+                                        placeholder="@machno">
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control text-center" type="text" id="findMateType"
+                                        placeholder="@matetype">
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control text-center" type="text" id="findMateCode"
+                                        placeholder="@matecode">
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control text-center" type="text" id="findMateName"
+                                        placeholder="@matename">
+                                </div>
+                            </div>
+                            <button class="btn btn-success" style="margin-right: 15px; float: right; margin-top: 5px; width: 70px; font-weight:
+                                600;" id="btnOkFind" onclick="GetRubmats()">OK</button>
+                            <button id="btnUpdate" class="btn btn-sm btn-success" style="margin-right: 15px; float: right; margin-top: 5px; width: 70px; height: 38px;
+                                display: none; font-weight: 600;" onclick="UpdateModifield()">Update</button>
+                            <button id="btnInsert" class="btn btn-sm btn-warning" style="margin-right: 15px; float: right; margin-top: 5px; width: 70px; height: 38px;
+                                display: none; font-weight: 600;" onclick="InsertRubmats()">Insert</button>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <div class="table-responsive table-sales"
+                                        style="margin-top: 0px !important; display: contents;">
+                                        <!-- table select -->
+                                        <table id="table_rubmats" class="table table-hover"
+                                            style="display: none; width: 100%;">
+                                            <thead class="text-primary">
+                                                <tr>
+                                                    <th class="font-weight-bold">NO.</th>
+                                                    <th class="font-weight-bold">machno</th>
+                                                    <th class="font-weight-bold">matetype</th>
+                                                    <th class="font-weight-bold">matecode</th>
+                                                    <th class="font-weight-bold">matename</th>
+                                                    <th class="font-weight-bold">intime</th>
+                                                    <th class="font-weight-bold">indat</th>
+                                                    <th class="font-weight-bold">usrno</th>
+                                                    <th class="font-weight-bold">state</th>
+                                                    <th class="font-weight-bold">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <div class="text-center" id="addedTittle" style="display: none;">
+                                                        <h3 class="text-warning">Recent Added Collection</h3>
+                                                    </div>
+                                                    <div class="row" id="table_added"
+                                                        style="display: none; padding: 20px">
+                                                        <form>
+                                                            <input class="form-control text-center" type="text"
+                                                                id="Added_machno" name="Added_machno"
+                                                                style="margin-left: 3px; margin-right: 3px;" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                id="Added_matetype" name="Added_matetype"
+                                                                style="margin-left: 3px; margin-right: 3px;" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                id="Added_matecode" name="Added_matecode"
+                                                                style="margin-left: 3px; margin-right: 3px;" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                id="Added_matename" name="Added_matename"
+                                                                style="margin-left: 3px; margin-right: 3px;" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                style="margin-left: 3px; margin-right: 3px;"
+                                                                id="Added_intime" name="Added_intime" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                style="margin-left: 3px; margin-right: 3px;"
+                                                                id="Added_indat" name="Added_indat" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                style="margin-left: 3px; margin-right: 3px;"
+                                                                id="Added_usrno" name="Added_usrno" readonly>
+
+                                                            <input class="form-control text-center" type="text"
+                                                                style="margin-left: 3px; margin-right: 3px;"
+                                                                id="Added_state" name="Added_state" readonly>
+                                                            <div style="display: none;" id="btnOK">
+                                                                <button id="btnInsertSubmit"
+                                                                    class="btn btn-sm btn-success"
+                                                                    style="width: 70px; float: right; height: 38px; margin: 0px; margin-left: 5px;"
+                                                                    onclick="InsertRubmats()">OK</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Insert -->
+<div class="modal fade" id="insertModal" tabindex="-1" role="dialog" aria-labelledby="insertModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="insertModalLabel">Insert Rubmats</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label style="float: left; margin-bottom: 0px;">machno</label>
+                <input id="machno" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">matetype</label>
+                <input id="matetype" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">machcode</label>
+                <input id="matecode" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">matename</label>
+                <input id="matename" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">intime</label>
+                <input id="intime" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">indat</label>
+                <input id="indat" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">usrno</label>
+                <input id="usrno" type="text" class="form-control" required>
+                <label style="float: left; margin-bottom: 0px;">state</label>
+                <input id="state" type="text" class="form-control" required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    style="margin-right: 5px;">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="InsertRubmats()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Update -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateModalLabel">Update Rubmats</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            id
+                        </span>
+                    </div>
+                    <input id="id" type="text" name="id" class="form-control text-center"
+                        style="margin-bottom: 0px !important;" readonly>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            machno
+                        </span>
+                    </div>
+                    <input id="machno" type="text" name="machno" class="form-control text-center" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            matetype
+                        </span>
+                    </div>
+                    <input id="matetype" type="text" name="matetype" class="form-control text-center" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            matecode
+                        </span>
+                    </div>
+                    <input id="matecode" type="text" name="matecode" class="form-control text-center" required>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            matename
+                        </span>
+                    </div>
+                    <input id="matename" type="text" name="matename" class="form-control text-center" required>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            intime
+                        </span>
+                    </div>
+                    <input id="intime" type="text" name="intime" class="form-control text-center" required>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            indat
+                        </span>
+                    </div>
+                    <input id="indat" type="text" name="indat" class="form-control text-center" required>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            usrno
+                        </span>
+                    </div>
+                    <input id="usrno" type="text" name="usrno" class="form-control text-center" required>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            state
+                        </span>
+                    </div>
+                    <input id="state" type="text" name="state" class="form-control text-center" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal"
+                    style="margin-right: 5px;">Close</button>
+                <button type="submit" class="btn btn-primary" onclick="UpdateRubmats()"
+                    data-dismiss="modal">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    CheckSession();
+
+    function CheckSession() {
+        if (localStorage.getItem("username") == null) {
+            window.location.assign("/");
+        }
+    }
+
+    $('#btnAdd').click(function () {
+        $('#btnOkFind').fadeOut();
+    });
+</script>

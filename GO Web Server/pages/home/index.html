@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Golang</title>
+    <link rel="stylesheet" href="assets/css/google-font.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.min.css">
+    <!-- <link href="assets/css/material-dashboard.min.css?v=2.1.0" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="css/Mycss.css">
+    <link rel="stylesheet" href="alertify/css/alertify.min.css">
+    <link rel="stylesheet" href="css/bootstrap/bootstrap-4.3.1.css">
+</head>
+
+<body>
+
+    <body>
+        <nav class="mb-4 navbar navbar-expand-lg navbar-dark" style="background-color: #5c6bc0!important;">
+            <a class="navbar-brand" href="/home">KENDA</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-3"
+                aria-controls="navbarSupportedContent-3" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse show" id="navbarSupportedContent-3">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="navbar-brand" href="#" class="text-primary" onclick="loadPage('/P9100')">P9100</a>
+                    </li>
+                    <!-- <li class="nav-item dropdown active">
+                    <a class="navbar-brand dropdown-toggle" href="#" id="navbarDropdownMenuLink-3"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tutorials
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right dropdown-unique"
+                        aria-labelledby="navbarDropdownMenuLink-3">
+                        <a class="dropdown-item waves-effect waves-light" href="#">Make-up</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">Nails</a>
+                        <a class="dropdown-item waves-effect waves-light" href="#">DIY</a>
+                    </div>
+                </li> -->
+                </ul>
+                <ul class="navbar-nav ml-auto nav-flex-icons">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="assets/img/faces/marc.jpg" alt="profile" width="30px" height="30px"
+                                style="border-radius: 50%;">
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-unique"
+                            style="background-color: #5c6bc0!important;" aria-labelledby="navbarDropdownMenuLink">
+                            <a class="dropdown-item waves-effect waves-light" id="uName"></a>
+                            <a class="dropdown-item waves-effect waves-light" href="#" onclick="Logout()"
+                                id="logout">Logout</a>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="content">
+            <div class="container-fluid">
+                <!-- your content here -->
+                <div id="divMain"></div>
+            </div>
+        </div>
+    </body>
+
+</html>
+
+
+<script src="assets/js/core/jquery.min.js"></script>
+<script src="assets/js/plugins/jquery.dataTables.min.js"></script>
+<script src="js/bootstrap/bootstrap-4.3.1.js"></script>
+<script src="alertify/js/alertify.min.js"></script>
+<script src="js/Myjs.js"></script>
+
+
+<script type="text/javascript">
+    CheckSession();
+    $("#uName").text(localStorage.getItem("username"));
+
+    function CheckSession() {
+        if (localStorage.getItem("username") == null) {
+            window.location.assign("/");
+        }
+    }
+</script>

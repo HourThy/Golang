@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Update User</title>
+  <link href="css/bootstrap/bootstrap-4.3.1.css" rel="stylesheet" />
+  <link href="alertify/css/alertify.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="text-center" style="padding-top: 50px">
+    <h2 class="text-primary">Update User Info</h2>
+    <form method="POST" style="width: 300px; margin-left: auto; margin-right: auto" autocomplete="off">
+      <input type="text" name="id" id="id" class="form-control text-center" style="margin: 10px" readonly />
+      <input type="text" name="username" id="username" class="form-control text-center" style="margin: 10px" />
+      <input type="text" name="password" id="password" class="form-control text-center" style="margin: 10px" />
+    </form>
+    <button type="submit" value="submit" class="btn btn-success" style="margin: 10px" onclick="Update()">Update</button>
+    <a href="/home" class="btn btn-warning" style="margin: 10px">Back Home</a>
+  </div>
+</body>
+
+</html>
+<script src="js/jquery/jquery-3.4.1.js"></script>
+<script src="js/bootstrap/bootstrap-4.3.1.js"></script>
+<script src="alertify/js/alertify.min.js"></script>
+<script>
+  var id = localStorage["id"];
+  var username = localStorage["username"];
+  var password = localStorage["password"];
+  $("#id").val(id);
+  $("#username").val(username);
+  $("#password").val(password);
+
+  function Update() {
+
+    var id = localStorage["id"];
+    var username = $("#username").val();
+    var password = $("#password").val();
+    localStorage["username"] = username;
+    localStorage["password"] = password;
+    $.ajax({
+      url: "/updateUser",
+      type: "POST",
+      data: {
+        'id': id,
+        'username': username,
+        'password': password
+      },
+      success: function (response) {
+        var notification = alertify.notify('Update successful!', 'success', 5, function () {
+          console.log('dismissed');
+        });
+      },
+      failure: function (response) {
+        //$.alert(response.d);
+        var notification = alertify.notify('Update failed', 'danger', 5, function () {
+          console.log('dismissed');
+        });
+      }
+    });
+  }
+</script>

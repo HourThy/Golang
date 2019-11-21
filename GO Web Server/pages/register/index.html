@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link href="css/bootstrap/bootstrap-4.3.1.css" rel="stylesheet" />
+  <script src="js/bootstrap/bootstrap-4.3.1.js"></script>
+  <script src="js/jquery/jquery-3.4.1.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <script type="text/javascript">
+    function CreateUser() {
+      var username = $("#mongo_id").val();
+      var password = $("#mongo_pw").val();
+
+      $.ajax({
+        url: "/createuser",
+        type: "post",
+        data: {
+          'username': username,
+          'password': password
+        },
+        success: function (response) {
+          alert(response);
+          //location.href = "register.html";
+        },
+        failure: function (response) {
+          $.alert(response.d);
+        }
+      });
+    }
+  </script>
+  <div class="container">
+    <h2>Register an account</h2>
+    <form class="form-group" method="POST">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" />
+      <label for="username">Password</label>
+      <input type="text" class="form-control" id="password" name="password" />
+      <input type="submit" class="btn btn-success" value="Submit" onclick="CreateUser()" />
+    </form>
+  </div>
+</body>
+
+</html>

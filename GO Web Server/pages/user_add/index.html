@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GO Client</title>
+    <link href="css/bootstrap/bootstrap-4.3.1.css" rel="stylesheet" />
+    <link href="alertify/css/alertify.min.css" rel="stylesheet">
+</head>
+
+<body style="padding: 10px">
+    <table style="margin-left: auto; margin-right: auto; border-collapse: collapse; margin-top: 50px;">
+        <tr>
+            <td>
+                <table>
+                    <tr>
+                        <td
+                            style="padding: 20px; border-radius: 5px; box-shadow: 0 0 1px 1px lightgray; text-align: center;">
+                            <form action="" autocomplete="off" method="POST">
+                                <label style="font-size: 30px; color: dodgerblue;">Insert User</label><br /><br />
+                                <input id="username" type="text" name="username" class="form-control"
+                                    style="width: 250px; text-align: center;"><br />
+                                <input id="password" type="text" name="password" class="form-control"
+                                    style="width: 250px; text-align: center;"><br />
+                            </form>
+                            <button type="submit" class="btn btn-outline-primary"
+                                style="width: 250px; margin: 0px 0px 5px 0px"
+                                onclick="InsertCollection()">Submit</button><br>
+                            <form action="/getuser">
+                                <input type="submit" value="Return Menu" class="btn btn-outline-sucess" />
+                            </form>
+                            <a href="/getuser" class="btn btn-outline-success" type="submit"
+                                style="width: 250px;">Return Menu</a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+<script src="js/jquery/jquery-3.4.1.js"></script>
+<script src="js/bootstrap/bootstrap-4.3.1.js"></script>
+<script src="alertify/js/alertify.min.js"></script>
+<script type="text/javascript">
+    function InsertCollection() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        $.ajax({
+            url: "/insertUser",
+            type: "POST",
+            data: {
+                'username': username,
+                'password': password
+            },
+            success: function (response) {
+                var notification = alertify.notify('User added successful', 'success', 5, function () {
+                    console.log('dismissed');
+                });
+            },
+            failure: function (response) {
+                //$.alert(response.d);
+                var notification = alertify.notify('Failed to add user!', 'danger', 5, function () {
+                    console.log('dismissed');
+                });
+            }
+        });
+    }
+</script>

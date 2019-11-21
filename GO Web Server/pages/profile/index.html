@@ -1,0 +1,42 @@
+<div class="content">
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card ">
+                        <div class="card-header card-header-primary card-header-icon">
+                            <div class="card-icon">
+                                <img src="assets/img/faces/marc.jpg" width="50px">
+                            </div>
+                            <h4 class="card-title">Profile</h4>
+                        </div>
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label for="lbUser" style="font-size: 16px">User:</label>
+                                    <label id="txtUser" style="font-size: 20px; font-weight: 600;"></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="lbDate" style="font-size: 16px">Logged in date: </label>
+                                    <label id="txtDate" style="font-size: 20px; font-weight: 600;"></label>
+                                </div>
+                                <div class="col-md-12">
+                                    <label for="lbTime" style="font-size: 16px">Logged in time: </label>
+                                    <label id="txtTime" style="font-size: 20px; font-weight: 600;"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#txtUser").text(localStorage.getItem("username"));
+    //var date = moment().format('MMMM Do YYYY');
+    //var time = moment().format('hh:mm:ss a');
+    $("#txtDate").text(localStorage.getItem("date"));
+    $("#txtTime").text(localStorage.getItem("time"));
+</script>

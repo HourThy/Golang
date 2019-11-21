@@ -1,0 +1,169 @@
+<div class="content">
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card ">
+            <div class="card-header card-header-success card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons"></i>
+              </div>
+              <h4 class="card-title">User list</h4>
+            </div>
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive table-sales" id="print">
+                    <table class="table">
+                      <tr>
+                        <th>No.</th>
+                        <th>_id</th>
+                        <th>username</th>
+                        <th>password</th>
+                        <th id="col-action">action</th>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function FetchCollection() {
+    var ID = $("#id").val();
+    var Username = $("#username").val();
+    var Password = $("#password").val();
+    $.ajax({
+      url: "/getuserlist",
+      type: "GET",
+      data: {
+        ID: ID,
+        Username: Username,
+        Password: Password
+      },
+      success: function (response) {
+        alertify.notify('Data filtered!.', 'success', 2, function () {
+          console.log('success');
+        });
+        $(response).each(function (index, value) {
+          var record =
+            "<tbody><tr><td>" +
+            (index + 1) +
+            "</td><td>" +
+            value.ID +
+            "</td><td>" +
+            value.Username +
+            "</td><td>" +
+            value.Password +
+            "</td><td>" +
+            "<button class='btn btn-danger' onclick='Delete()'>Delete</button> " +
+            "<a class='btn btn-primary' style='margin-right: 4px' href='/updateuser?id=" +
+            (index + 1) +
+            "'onclick='Update()'>Edit</a>" +
+            "<button class='btn btn-info' onclick='PrintOne()'>Print</button>" +
+            "</td><tr></tbody>";
+          $("table").append(record);
+        });
+        //alert(response);
+        //$("#response").html(response);
+        //console.log(JSON.stringify(response));
+      },
+      failure: function (response) {
+        $.alert(response.d);
+      }
+    });
+  }
+  FetchCollection();
+
+  function Delete() {
+    $("table").on("click", ".btn", function () {
+      var currentRow = $(this).closest("tr");
+      var id = currentRow.find("td:eq(1)").text();
+      var _id = id;
+      $.ajax({
+        url: "/deleteUser",
+        type: "POST",
+        data: {
+          id: id
+        },
+        success: function (response) {
+          var notification = alertify.error('User deleted successful!', 'success', 5,
+            function () {
+              console.log('dismissed');
+            });
+          $(response).each(function (index, value) {
+            var record =
+              "<tr><td>" +
+              (index + 1) +
+              "</td><td id='id' name='id'>" +
+              value.ID +
+              "</td><td id='username' name='username'>" +
+              value.Username +
+              "</td><td id='password' name='password'>" +
+              value.Password +
+              "</td><tr>";
+            $("table").append(record);
+          });
+
+        },
+        failure: function (response) {
+          $.alert(response.d);
+        }
+      });
+      $(this).closest('tr').remove();
+    });
+  }
+
+  function Update() {
+    $("table").on("click", ".btn", function () {
+      var currentRow = $(this).closest("tr");
+      var id = currentRow.find("td:eq(1)").text();
+      var username = currentRow.find("td:eq(2)").text();
+      var password = currentRow.find("td:eq(3)").text();
+      var _id = id;
+      var _username = username;
+      var _password = password;
+      localStorage.setItem("id", _id);
+      localStorage.setItem("username", _username);
+      localStorage.setItem("password", _password);
+    });
+  }
+
+  function CallPrint() {
+    $("button").hide();
+    $("a").hide();
+    $("#col-action").hide();
+    var prtContent = document.getElementById("print");
+    var WinPrint = window.open('', '',
+      'left= 0, top= 0, width= 1, height= 1, toolbar= 0, scrollbars= 0, status= 0');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
+
+  function PrintOne() {
+    $("button").hide();
+    $("a").hide();
+    $("#col-action").hide();
+    var prtContent = document.getElementById("print");
+    var WinPrint = window.open('', '',
+      'left= 0, top= 0, width= 1, height= 1, toolbar= 0, scrollbars= 0, status= 0');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+  }
+
+  function loadPage(page) {
+    $("#pageMain").load(page);
+    FetchCollection();
+  }
+</script>

@@ -1,0 +1,36 @@
+#table_rubmats {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: auto;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+    background-color: #e9ecef;
+}
+
+a {
+        color: #fff !important;
+    }
+
+    a:hover {
+        color: greenyellow !important;
+    }
+
+    /* #logout #uName {
+        background-color: rgb(193, 208, 232) !important;
+    } */
+
+    #logout:hover {
+        color: greenyellow !important;
+    }
+
+    #logout a {
+        background-color: grey !important;
+    }
+
+    .row {
+        flex-wrap: unset !important;
+        margin-right: 0px !important;
+        margin-left: 0px !important;
+    }
