@@ -1,54 +1,246 @@
+<style>
+    .fix-width {
+	width: 100%;
+	overflow-y: hidden;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+.table {
+	width: 700px;
+	margin-bottom: 0;
+	max-width: none;
+}
+
+/* .panel {
+	padding: 15px;
+} */
+
+#style-2::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar
+{
+	width: 20px;
+	background-color: #F5F5F5;
+}
+
+#style-2::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: rgb(41, 159, 214);
+}
+</style>
+
 <div class="container-fluid">
-    <header class="text-center" style="margin: 30px;">
-        <h1 class="text-primary" style="font-weight: 600;">Dispatch Order Generation</h1>
+    <header class="text-center" style="margin: 20px;">
+        <h1 class="text-primary" style="font-weight: 600;">Manage Process Panel</h1>
     </header>
 
     <section style="margin-top: 3rem;">
         <div class="row">
-            <div class="col-6">
-                <div class="row">
-                    <div style="margin-left: auto; margin-right: auto;">
-                        <label style="font-weight: 600; float: left; padding: 10px;">PROD CATE</label>
-                        <select id="cbPRODCATE" class="form-control"
-                            style="float: left; width: 300px !important; height: 50px;">
-                            <option value="">===Select===</option>
-                        </select>
-                        <!-- <input type="text" name="typeValue" id="typeValue" style="display: none;"> -->
-                    </div>
+            <div class="col-3">
+                <div class="row" style="margin: 5px;">
+                    <label style="font-weight: 600; float: left; padding: 7px 10px 0px 0px;">Bay ID</label>
+                    <select id="cbPRODCATE" class="form-control"
+                        style="float: left; width: 160px !important; height: 40px;">
+                        <option value="">===Select===</option>
+                    </select>
                 </div>
-
-                <div class="row" style="margin: 10px;">
-                    <div style="margin-left: auto; margin-right: auto;">
-                        <label
-                            style="padding-left: 10px; font-weight: 600; float: left; margin-right: 30px; padding-top: 10px;">PROD
-                            ID</label>
-                        <select id="cbPRODID" class="form-control"
-                            style="float: left; width: 300px !important; height: 50px;">
-                            <option value="">===Select===</option>
-                        </select>
+                <div class="row">
+                    <input autocomplete="off" required="true" ID="startDate" class="form-control text-center" style="float: left; width: 140px !important;" placeholder="yyyy-mm-dd"/>
+                    <label for="shift" style="padding: 5px;">Shift</label>
+                    <select id="cbPRODCATE" class="form-control" style="float: left; width: 160px !important; height: 40px;">
+                        <option value="">===Select===</option>
+                    </select>
+                </div>
+                <article>
+                    <div class="panel panel-default">
+                        <div class="center-block fix-width" id="style-2">
+                            <table class="table table-striped table-hover">
+                                <thead style="font-size: smaller;">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>PROD ID</th>
+                                        <th>Demand Weight</th>
+                                        <th>Current Oper No.</th>
+                                        <th>Reserve Oper No.</th>
+                                        <th>Sheet Count</th>
+                                        <th>Work Time</th>
+                                        <th>Recommended Eqpt</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: smaller;">
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <th>1</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <th>2</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                        <th>3</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>David</td>
+                                        <td>Bullock</td>
+                                        <td>@serkai</td>
+                                        <th>4</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                </article>
+            </div>
+            <div class="col-1"> 
+                <div class="text-center" style="margin-top: 12rem; padding: 10px;">
+                    <button class="btn btn-success" id="btnMoveRight"><b><i class="fa fa-hand-o-right" aria-hidden="true" style="font-size: x-large;"></i></b></button>
+                </div>
+            
+                <div class="text-center">
+                    <button class="btn btn-danger" id="btnMoveLeft"><b><i class="fa fa-hand-o-left" aria-hidden="true" style="font-size: x-large;"></i></b></button>
                 </div>
             </div>
-            <div class="col-6">
-                <div class="row">
-                    <div style="margin-left: auto; margin-right: auto;">
-                        <label for="startDate" style="float:left; margin-top: 7px; margin-bottom: 0px !important;">Ngày bắt đầu</label>
-                        <input autocomplete="off" required="true" ID="startDate" class="form-control text-center" style="float: left; width: 140px !important; margin: 0px 0px 0px 15px"/>
-                    </div>
+            <div class="col-8">
+                <div class="row" style="margin: 4px 0px 5px 0px;">
+                    <label style="font-weight: 600; float: left; padding: 7px 10px 0px 0px;">EQPT ID</label>
+                    <select id="cbPRODCATE" class="form-control"
+                        style="float: left; width: 160px !important; height: 40px;">
+                        <option value="">===Select===</option>
+                    </select>
                 </div>
-
-                <div class="row" style="margin: 10px;">
-                    <div style="margin-left: auto; margin-right: auto;">
-                        <label for="startDate" style="float:left; margin-top: 7px; margin-bottom: 0px !important;">Ngày kết thúc</label>
-                        <input autocomplete="off" required="true" ID="endDate" class="form-control text-center" style="float: left; width: 140px !important; margin: 0px 0px 0px 15px"/>
+                <article>
+                    <div class="panel panel-default">
+                        <div class="center-block fix-width" id="style-2">
+                            <table class="table table-striped table-hover">
+                                <thead style="font-size: smaller;">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>PROD ID</th>
+                                        <th>Sheet Count</th>
+                                        <th>Demand Weight</th>
+                                        <th>Current Oper No.</th>
+                                        <th>Reserve Oper No.</th>
+                                        <th>Reserve Date</th>
+                                        <th>Reserve Shift</th>
+                                        <th>Oper ID</th>
+                                        <th>Recipe ID</th>
+                                        <th>Reserve Eqpt</th>
+                                        <th>Comment</th>
+                                        <th>Lot Status</th>
+                                        <th>Work Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="font-size: smaller;">
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>@mdo</td>
+                                        <th>1</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>@fat</td>
+                                        <th>2</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>Larry</td>
+                                        <td>the Bird</td>
+                                        <td>@twitter</td>
+                                        <th>3</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>David</td>
+                                        <td>Bullock</td>
+                                        <td>@serkai</td>
+                                        <th>4</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                        <th>The sentance starts here</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                </article>
             </div>
         </div>
     </section>
-    <article>
-        <div class="text-center" style="padding: 20px">
-            <h4 class="text-primary">Work Order List</h4>
-        </div>
-    </article>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#startDate').datepicker({ dateFormat: "yy-mm-dd" });
+        $("#startDate").datepicker("setDate", "2019-11-01" );
+        $('#endDate').datepicker({ dateFormat: "yy-mm-dd" });
+        $("#endDate").datepicker("setDate", '2019-12-31');
+    });
+</script>
