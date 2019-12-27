@@ -477,6 +477,7 @@ func main() {
 	http.HandleFunc("/deleteRubmats", DeleteRubmats)
 
 	http.Handle("/postgre", http.StripPrefix("/postgre", http.FileServer(http.Dir("pages/postgre"))))
+	http.Handle("/1200", http.StripPrefix("/1200", http.FileServer(http.Dir("pages/1200"))))
 	http.HandleFunc("/connectToPostgreSQL", ConnectPostgreSQL)
 
 	//Restful API
