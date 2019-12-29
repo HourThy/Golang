@@ -82,7 +82,7 @@ function PostMachineID(){
             $(response).each(function (index, value) {
                 var record =
                     "<tr><td>" +
-                    "<input type='checkbox' name='' id=''></input>" +
+                    "<input type='checkbox'></input>" +
                     "</td><td>" +
                     (index + 1) +
                     "</td><td>" +
