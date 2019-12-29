@@ -82,6 +82,8 @@ function PostMachineID(){
             $(response).each(function (index, value) {
                 var record =
                     "<tr><td>" +
+                    "<input type='checkbox' name='' id=''></input>" +
+                    "</td><td>" +
                     (index + 1) +
                     "</td><td>" +
                     (value.NX_OPE_NO) +
@@ -107,3 +109,13 @@ function PostMachineID(){
         }
     });
 }
+
+
+
+$(document).ready(function() {
+    $("#btnMoveLeft").on("click",function(){
+            $('input:checked').each(function() {
+            $(this).closest('tr').remove();
+        });
+    });
+});
