@@ -454,6 +454,94 @@ func ConnectPostgreSQL(w http.ResponseWriter, r *http.Request) {
 	w.Write(e)
 	//w.WriteHeader(http.StatusOK)
 }
+
+// func ConnectOracle(w http.ResponseWriter, r *http.Request) {
+// 	// Oracle
+// 	db, err := sql.Open("goracle", "system/password@198.1.9.189:1521/KVDBP01")
+// 	if err != nil {
+// 		fmt.Println(err)
+// 		return
+// 	}
+// 	fmt.Println("Connected to Oracle!")
+// 	defer db.Close()
+// 	// Oracle
+
+// 	// MongoDB
+// 	clientOptions := options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
+// 	client, err := mongo.Connect(context.TODO(), clientOptions)
+// 	if err != nil {
+// 		println(err)
+// 	}
+// 	err = client.Ping(context.TODO(), nil)
+// 	if err != nil {
+// 		println(err)
+// 	}
+// 	fmt.Println("Connected to MongoDb!")
+// 	// MongoDB
+
+// 	rows, err := db.Query("SELECT* FROM PPT1D.AOPER_INSTRUCT")
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+// 	defer rows.Close()
+
+// 	//var abilbdln ABILBDLN
+// 	//var results []*ABILBDLN
+// 	//var filter bson.Raw
+// 	collection := client.Database("KV2MongoDB").Collection("AOPER_INSTRUCT")
+// 	var data []interface{}
+// 	for rows.Next() {
+// 		var elem AOPER_INSTRUCT
+
+// 		if err = rows.Scan(
+// 			&elem.OPE_ID,
+// 			&elem.OPE_VER,
+// 			&elem.INSTRUCT_01,
+// 			&elem.INSTRUCT_02,
+// 			&elem.INSTRUCT_03,
+// 			&elem.INSTRUCT_04,
+// 			&elem.INSTRUCT_05,
+// 			&elem.INSTRUCT_06,
+// 			&elem.INSTRUCT_07,
+// 			&elem.INSTRUCT_08,
+// 			&elem.INSTRUCT_09,
+// 			&elem.INSTRUCT_10,
+// 			&elem.INSTRUCT_11,
+// 			&elem.INSTRUCT_12,
+// 			&elem.INSTRUCT_13,
+// 			&elem.INSTRUCT_14,
+// 			&elem.INSTRUCT_15,
+// 		); err != nil {
+// 			panic(err)
+// 		}
+// 		//results = append(results, &elem)
+// 		filter := bson.D{
+// 			{"OPE_ID", strings.TrimSpace(elem.OPE_ID)},
+// 			{"OPE_VER", strings.TrimSpace(elem.OPE_VER)},
+// 			{"INSTRUCT_01", strings.TrimSpace(elem.INSTRUCT_01)},
+// 			{"INSTRUCT_02", strings.TrimSpace(elem.INSTRUCT_02)},
+// 			{"INSTRUCT_03", strings.TrimSpace(elem.INSTRUCT_03)},
+// 			{"INSTRUCT_04", strings.TrimSpace(elem.INSTRUCT_04)},
+// 			{"INSTRUCT_05", strings.TrimSpace(elem.INSTRUCT_05)},
+// 			{"INSTRUCT_06", strings.TrimSpace(elem.INSTRUCT_06)},
+// 			{"INSTRUCT_07", strings.TrimSpace(elem.INSTRUCT_07)},
+// 			{"INSTRUCT_08", strings.TrimSpace(elem.INSTRUCT_08)},
+// 			{"INSTRUCT_09", strings.TrimSpace(elem.INSTRUCT_09)},
+// 			{"INSTRUCT_10", strings.TrimSpace(elem.INSTRUCT_10)},
+// 			{"INSTRUCT_11", strings.TrimSpace(elem.INSTRUCT_11)},
+// 			{"INSTRUCT_12", strings.TrimSpace(elem.INSTRUCT_12)},
+// 			{"INSTRUCT_13", strings.TrimSpace(elem.INSTRUCT_13)},
+// 			{"INSTRUCT_14", strings.TrimSpace(elem.INSTRUCT_14)},
+// 			{"INSTRUCT_15", strings.TrimSpace(elem.INSTRUCT_15)},
+// 		}
+// 		data = []interface{}{filter}
+// 		insertManyResult, err := collection.InsertMany(context.TODO(), data)
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		fmt.Println("Document inserted: ", insertManyResult.InsertedIDs)
+// 	}
+// }
 func main() {
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
 	http.Handle("/register", http.StripPrefix("/register", http.FileServer(http.Dir("pages/register"))))
@@ -498,9 +586,10 @@ func main() {
 	http.HandleFunc("/postProCate", p1100.PostProCate)
 	http.HandleFunc("/getMaxLOTID", p1100.GetMaxLOTID)
 	http.HandleFunc("/postProID", p1100.PostProID)
-	//http.HandleFunc("/insertAEQPTRESV", p1100.InsertAEQPTRESV)
+	http.HandleFunc("/insertAEQPTRESV", p1100.InsertAEQPTRESV)
 	http.HandleFunc("/getBayID", p1200.GetBayID)
 	http.HandleFunc("/postBayID", p1200.PostBayID)
+	http.HandleFunc("/getMachineID", p1200.GetMachineID)
 	// ********* Call Oracle ********
 
 	http.ListenAndServe(":6060", nil)

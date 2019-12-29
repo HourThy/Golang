@@ -1,6 +1,7 @@
 package p1200
 
 import (
+	"config"
 	"context"
 	"encoding/json"
 	"net/http"
@@ -10,6 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	_ "gopkg.in/goracle.v2"
+	//"gopkg.in/mgo.v2"
+	bbson "gopkg.in/mgo.v2/bson"
 	model "MES_Model"
 	"strings"
 )
@@ -117,6 +120,40 @@ func PostBayID(w http.ResponseWriter, r *http.Request) {
 			w.Write(b)
 		} else {
 			w.Write([]byte(" Data is empty"))
+		}
+	}
+}
+
+// GetMachineID : GetMachineID
+func GetMachineID(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		bayID := r.FormValue("BAY_ID")
+		db, err := config.GetMongoDB()
+		if err != nil {
+			panic(err)
+		} else {
+			var results []model.AEQPTRESV
+			err2 := db.C("AEQPTRESV").Find(bson.M{"FIT_EQPTS": bson.M{"$regex": bbson.RegEx{"^.*" + bayID + ".*$", "i"}}}).Select(
+				bson.M{
+					"LOT_ID": 1, 
+					"NX_OPE_ID": 1,
+					"NX_OPE_VER": 1,
+					"PLAN_OPT_WEIGHT": 1,
+					"NX_OPE_NO": 1,
+					"RESV_DATE": 1,
+					"RESV_SHIFT_SEQ": 1,
+				},
+				).All(&results)
+			if err2 != nil {
+				panic(err)
+			} else {
+				b, err := json.MarshalIndent(results, "", "\t")
+				if err != nil {
+					panic("Err!")
+				}
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(b)
+			}
 		}
 	}
 }

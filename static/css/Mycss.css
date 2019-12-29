@@ -9,9 +9,9 @@
     background-color: #e9ecef;
 }
 
-a {
+/* a {
         color: #fff !important;
-    }
+    } */
 
     a:hover {
         color: greenyellow !important;

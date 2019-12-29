@@ -10,6 +10,7 @@ import (
 	"strings"
 	"time"
 
+	model "MES_Model"
 	_ "github.com/lib/pq"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -17,7 +18,6 @@ import (
 	_ "gopkg.in/goracle.v2"
 	"gopkg.in/mgo.v2"
 	bbson "gopkg.in/mgo.v2/bson"
-	model "MES_Model"
 )
 
 // PostProCate : PostProCate
@@ -265,79 +265,79 @@ func GetLineID(w http.ResponseWriter, r *http.Request) {
 }
 
 // PostLineID : PostLineID
-func PostLineID(w http.ResponseWriter, r *http.Request) {
-	var count int
-	if r.Method == "POST" {
-		count++
-		valType := r.FormValue("subitem")
-		arrVal := strings.Split(valType, "-")
-		var code string
-		var subitem string
-		for i := 0; i < len(arrVal); i++ {
-			code = arrVal[0]
-			subitem = arrVal[1]
-		}
-		usr := r.FormValue("usr")
-		indat := r.FormValue("indat")
-		indat = strings.Replace(indat, "-", "", 64)
-		intime := r.FormValue("intime")
-		lot_id := code + subitem + indat + "000" + strconv.Itoa(count)
-		fmt.Println(lot_id)
-		fmt.Println(valType + "\t" + usr + "\t" + indat + "\t" + intime)
-		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-		client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB"))
-		if err != nil {
-			panic(err)
-		}
-		err = client.Ping(context.TODO(), nil)
-		if err != nil {
-			panic(err)
-		}
-		collection := client.Database("KV2MongoDB").Collection("APRDCT")
-		//findOptions := options.Find()
-		var results []*model.APRDCT
+// func PostLineID(w http.ResponseWriter, r *http.Request) {
+// 	var count int
+// 	if r.Method == "POST" {
+// 		count++
+// 		valType := r.FormValue("subitem")
+// 		arrVal := strings.Split(valType, "-")
+// 		var code string
+// 		var subitem string
+// 		for i := 0; i < len(arrVal); i++ {
+// 			code = arrVal[0]
+// 			subitem = arrVal[1]
+// 		}
+// 		usr := r.FormValue("usr")
+// 		indat := r.FormValue("indat")
+// 		indat = strings.Replace(indat, "-", "", 64)
+// 		intime := r.FormValue("intime")
+// 		lot_id := code + subitem + indat + "000" + strconv.Itoa(count)
+// 		fmt.Println(lot_id)
+// 		fmt.Println(valType + "\t" + usr + "\t" + indat + "\t" + intime)
+// 		ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+// 		client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB"))
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		err = client.Ping(context.TODO(), nil)
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 		collection := client.Database("KV2MongoDB").Collection("APRDCT")
+// 		//findOptions := options.Find()
+// 		var results []*model.APRDCT
 
-		projection := bson.D{
-			{"PRODUCT_ID", 1},
-			{"PRODUCT_DSC", 1},
-			{"_id", 0},
-		}
+// 		projection := bson.D{
+// 			{"PRODUCT_ID", 1},
+// 			{"PRODUCT_DSC", 1},
+// 			{"_id", 0},
+// 		}
 
-		cur, err := collection.Find(
-			context.Background(),
-			bson.D{
-				{"PRODUCT_CATE", code},
-			},
-			options.Find().SetProjection(projection),
-		)
-		// cur, err := collection.Find(context.TODO(),
-		// 	bson.D{{{PRODUCT_CATE: "Z"}, {PRODUCT_ID: 1, PRODUCT_DSC: 1}}}, findOptions)
-		if err != nil {
-			println("Find data error")
-		}
-		defer cur.Close(ctx)
-		//fmt.Println(cur)
-		for cur.Next(context.TODO()) {
-			var elem model.APRDCT
-			err := cur.Decode(&elem)
-			if err != nil {
-				panic(err)
-			}
-			results = append(results, &elem)
-		}
-		if err := cur.Err(); err != nil {
-			panic(err)
-		}
-		//fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
-		b, err := json.MarshalIndent(results, "", "\t")
-		if err != nil {
-			panic("Err!")
-		}
-		//fmt.Printf("%s\n", b)
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(b)
-	}
-}
+// 		cur, err := collection.Find(
+// 			context.Background(),
+// 			bson.D{
+// 				{"PRODUCT_CATE", code},
+// 			},
+// 			options.Find().SetProjection(projection),
+// 		)
+// 		// cur, err := collection.Find(context.TODO(),
+// 		// 	bson.D{{{PRODUCT_CATE: "Z"}, {PRODUCT_ID: 1, PRODUCT_DSC: 1}}}, findOptions)
+// 		if err != nil {
+// 			println("Find data error")
+// 		}
+// 		defer cur.Close(ctx)
+// 		//fmt.Println(cur)
+// 		for cur.Next(context.TODO()) {
+// 			var elem model.APRDCT
+// 			err := cur.Decode(&elem)
+// 			if err != nil {
+// 				panic(err)
+// 			}
+// 			results = append(results, &elem)
+// 		}
+// 		if err := cur.Err(); err != nil {
+// 			panic(err)
+// 		}
+// 		//fmt.Printf("Found multiple documents (array of pointers): %+v\n", results)
+// 		b, err := json.MarshalIndent(results, "", "\t")
+// 		if err != nil {
+// 			panic("Err!")
+// 		}
+// 		//fmt.Printf("%s\n", b)
+// 		w.Header().Set("Content-Type", "application/json")
+// 		w.Write(b)
+// 	}
+// }
 
 // GetOwnerID : GetOwnerID
 func GetOwnerID(w http.ResponseWriter, r *http.Request) {
@@ -389,64 +389,6 @@ func GetOwnerID(w http.ResponseWriter, r *http.Request) {
 
 // GetMaxLOTID : GetMaxLOTID
 func GetMaxLOTID(w http.ResponseWriter, r *http.Request) {
-	// MongoDB
-	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	// client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB"))
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// err = client.Ping(context.TODO(), nil)
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Println("Connected to MongoDb!")
-	// collection := client.Database("KV2MongoDB").Collection("AEQPTRESV")
-	// var results []*AEQPTRESV
-	// // projection := []bson.M{
-	// // 	bson.M{"$match": bson.M{"RESV_DATE": "2019-12-12T00:00:00+07:00"}},
-	// // 	bson.M{"$group": bson.M{"_id": bson.M{"LOT_ID": "$LOT_ID"}}},
-	// // 	bson.M{"$project": bson.M{"LOT_ID": bson.M{"LOT_ID": "$_id.LOT_ID"}, "_id": 0}},
-	// // 	bson.M{"$sort": bson.M{"LOT_ID": 1}},
-	// // }
-	// pipeline := mongo.Pipeline{
-	// 	{{"$match", bson.D{
-	// 		{"RESV_DATE", "2019-12-12T00:00:00+07:00"},
-	// 	}}},
-	// 	{{"$group", bson.D{
-	// 		{"_id", bson.D{
-	// 			{"LOT_ID", "$LOT_ID"}}},
-	// 	}}},
-	// 	{{"$project", bson.D{
-	// 		{"LOT_ID", bson.D{
-	// 			{"LOT_ID", "$_id.LOT_ID"}}},
-	// 		{"_id", 0}}}},
-	// 	{{"$sort", bson.D{
-	// 		{"LOT_ID", 1},
-	// 	}}},
-	// }
-	// cur, err := collection.Aggregate(context.Background(), pipeline)
-	// if err != nil {
-	// 	println("Find data error")
-	// }
-	// //fmt.Println(pipeline)
-	// for cur.Next(context.Background()) {
-	// 	var elem AEQPTRESV
-	// 	// err := cur.Decode(&elem)
-	// 	// if err != nil {
-	// 	// 	panic(err)
-	// 	// }
-	// 	fmt.Println(elem)
-	// 	results = append(results, &elem)
-	// }
-	// if r.Method == "GET" {
-	// 	b, err := json.MarshalIndent(results, "", "\t")
-	// 	if err != nil {
-	// 		panic("Err!")
-	// 	}
-	// 	fmt.Printf("%s\n", b)
-	// 	w.Header().Set("Content-Type", "application/json")
-	// 	w.Write(b)
-	// }
 	session, err := mgo.Dial("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
 	if err != nil {
 		panic(err)
@@ -475,67 +417,69 @@ func GetMaxLOTID(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-// // InsertAEQPTRESV : InsertAEQPTRESV
-// func InsertAEQPTRESV(w http.ResponseWriter, r *http.Request) {
-// 	LOT_ID := r.FormValue("LOT_ID")
-// 	NX_OPE_NO := "";
-// 	NX_OPE_ID := r.FormValue("NX_OPE_ID")
-// 	NX_OPE_VER := ""
-// 	SPLT_ID := ""
-// 	RESV_EQPT_ID := ""
-// 	LOT_STAT := ""
-// 	RUN_FLAG := ""
-// 	RESV_DATE := r.FormValue("RESV_DATE")
-// 	RESV_SHIFT_SEQ := ""
-// 	RESV_COMMENT := ""
-// 	CLAIM_DATE := r.FormValue("CLAIM_DATE")
-// 	CLAIM_TIME := r.FormValue("CLAIM_TIME")
-// 	CLAIM_USER := r.FormValue("CLAIM_USER")
-// 	MOVE_IN_WEIGHT := ""
-// 	MOVE_OUT_WEIGHT := ""
-// 	PLAN_OPT_WEIGHT := r.FormValue("PLAN_OPT_WEIGHT")
-// 	SHT_CNT := ""
-// 	CR_SHT_CNT := ""
-// 	FIT_EQPTS := ""
-// 	clientOptions := options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
-// 	client, err := mongo.Connect(context.TODO(), clientOptions)
-// 	if err != nil {
-// 		println(err)
-// 	}
-// 	err = client.Ping(context.TODO(), nil)
-// 	if err != nil {
-// 		println(err)
-// 	}
+// InsertAEQPTRESV : InsertAEQPTRESV
+func InsertAEQPTRESV(w http.ResponseWriter, r *http.Request) {
+	LOT_ID := r.FormValue("LOT_ID")
+	//check_LOT_ID := strings.substring
+	NX_OPE_NO := "";
+	NX_OPE_ID := r.FormValue("NX_OPE_ID")
+	NX_OPE_VER := ""
+	SPLT_ID := ""
+	RESV_EQPT_ID := ""
+	LOT_STAT := ""
+	RUN_FLAG := ""
+	RESV_DATE := r.FormValue("RESV_DATE")
+	RESV_SHIFT_SEQ := ""
+	RESV_COMMENT := ""
+	CLAIM_DATE := r.FormValue("CLAIM_DATE")
+	CLAIM_TIME := r.FormValue("CLAIM_TIME")
+	CLAIM_USER := r.FormValue("CLAIM_USER")
+	MOVE_IN_WEIGHT := ""
+	MOVE_OUT_WEIGHT := ""
+	PLAN_OPT_WEIGHT := r.FormValue("PLAN_OPT_WEIGHT")
+	SHT_CNT := ""
+	CR_SHT_CNT := ""
+	FIT_EQPTS := ""
+	clientOptions := options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		println(err)
+	}
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		println(err)
+	}
 
-// 	collection := client.Database("KV2MongoDB").Collection("AEQPTRESV")
-// 	filter := bson.D{
-// 		{"LOT_ID", LOT_ID},
-// 		{"NX_OPE_NO", NX_OPE_NO},
-// 		{"NX_OPE_ID", NX_OPE_ID},
-// 		{"NX_OPE_VER", NX_OPE_VER},
-// 		{"SPLT_ID", SPLT_ID},
-// 		{"RESV_EQPT_ID", RESV_EQPT_ID},
-// 		{"LOT_STAT", LOT_STAT},
-// 		{"RUN_FLAG", RUN_FLAG},
-// 		{"RESV_DATE", RESV_DATE},
-// 		{"RESV_SHIFT_SEQ", RESV_SHIFT_SEQ},
-// 		{"RESV_COMMENT", RESV_COMMENT},
-// 		{"CLAIM_DATE", CLAIM_DATE},
-// 		{"CLAIM_TIME", CLAIM_TIME},
-// 		{"CLAIM_USER", CLAIM_USER},
-// 		{"MOVE_IN_WEIGHT", MOVE_IN_WEIGHT},
-// 		{"MOVE_IN_WEIGHT", MOVE_OUT_WEIGHT},
-// 		{"PLAN_OPT_WEIGHT", PLAN_OPT_WEIGHT},
-// 		{"SHT_CNT", SHT_CNT},
-// 		{"CR_SHT_CNT", CR_SHT_CNT},
-// 		{"FIT_EQPTS", FIT_EQPTS},
-// 	}
-// 	insertResult, err := collection.InsertOne(context.TODO(), filter)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	err = client.Disconnect(context.TODO())
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// }
+	collection := client.Database("KV2MongoDB").Collection("AEQPTRESV")
+	filter := bson.D{
+		{"LOT_ID", LOT_ID},
+		{"NX_OPE_NO", NX_OPE_NO},
+		{"NX_OPE_ID", NX_OPE_ID},
+		{"NX_OPE_VER", NX_OPE_VER},
+		{"SPLT_ID", SPLT_ID},
+		{"RESV_EQPT_ID", RESV_EQPT_ID},
+		{"LOT_STAT", LOT_STAT},
+		{"RUN_FLAG", RUN_FLAG},
+		{"RESV_DATE", RESV_DATE},
+		{"RESV_SHIFT_SEQ", RESV_SHIFT_SEQ},
+		{"RESV_COMMENT", RESV_COMMENT},
+		{"CLAIM_DATE", CLAIM_DATE},
+		{"CLAIM_TIME", CLAIM_TIME},
+		{"CLAIM_USER", CLAIM_USER},
+		{"MOVE_IN_WEIGHT", MOVE_IN_WEIGHT},
+		{"MOVE_IN_WEIGHT", MOVE_OUT_WEIGHT},
+		{"PLAN_OPT_WEIGHT", PLAN_OPT_WEIGHT},
+		{"SHT_CNT", SHT_CNT},
+		{"CR_SHT_CNT", CR_SHT_CNT},
+		{"FIT_EQPTS", FIT_EQPTS},
+	}
+	insertResult, err := collection.InsertOne(context.TODO(), filter)
+	if err != nil {
+		panic(err)
+	}
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("Inserted many document: ", insertResult.InsertedID)
+}

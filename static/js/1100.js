@@ -250,42 +250,6 @@ function GetOwnerID() {
         });
     });
 
-    $('#cbLineID').on('change', function (e) {
-        var optionSelected = $("option:selected", this);
-        var lineIDSelected = this.value; // 'D', 'V', 'Z', 'RUBB'
-        var prodID = $("#cbPRODID").val(); //V-S579487PB150A
-        //alert(valueSelected);
-        //sessionStorage.setItem("PROD_ID_Selected", lineIDSelected);
-        $.ajax({
-            url: "/postLineID",
-            type: "POST",
-            data: {
-                'lnid': lineIDSelected,
-                'indat': localStorage.getItem("indat"),
-                'intime': localStorage.getItem("intime"),
-                'usr': localStorage.getItem('username'),
-                'prodID': prodID
-            },
-            // contentType: "application/json",
-            success: function (response) {
-                var len = response.length;
-                $("#cbLineID").empty();
-                for (var i = 0; i < len; i++) {
-                    // var PRODUCT_ID = response[i]['PRODUCT_ID'];
-                    // var PRODUCT_DSC = response[i]['PRODUCT_DSC'];
-                    var CODE = response[i]['CODE'];
-                    var SUBITEM = response[i]['SUBITEM'];
-                    var CODE_DSC = response[i]['CODE_DSC'];
-                    $("#cbLineID").append("<option value='" + CODE + CODE_DSC + "'>" +
-                        CODE + " | " + SUBITEM + " | " + CODE_DSC + " | " + "</option>");
-                }
-            },
-            failure: function (response) {
-                alert("Get data error!");
-            }
-        });
-    });
-
 CheckSession();
 $("#uName").text(localStorage.getItem("username"));
 
@@ -346,6 +310,7 @@ function Add() {
 }
 
 function onSubmit() {
+    debugger;
     var count = 1;
     localStorage.setItem("count", count);
     var date = localStorage.getItem("indat");
@@ -382,6 +347,13 @@ function onSubmit() {
         var strFormat = workOrderID + strOwnerID + date + maxStr;
         var workOrder = strFormat;
         var wordOrderDSC = strFormat;
+
+        //Check if Ep Vo
+        var checkEpVo = workOrder.substring(0, 1);
+        if(checkEpVo == "Z"){
+            workOrder += "-N";
+        }
+        //Check if Ep Vo
         $("#tbOrder tbody").fadeOut(200);
         $('#tbInserted').fadeIn();
         $('#modal').modal('toggle');
