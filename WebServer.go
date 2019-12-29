@@ -7,6 +7,7 @@ import (
 	"net/http"
 	login "packages/login"
 	p1100 "packages/p1100"
+	p1200 "packages/p1200"
 	rubmats "packages/rubmats"
 	"time"
 
@@ -497,7 +498,9 @@ func main() {
 	http.HandleFunc("/postProCate", p1100.PostProCate)
 	http.HandleFunc("/getMaxLOTID", p1100.GetMaxLOTID)
 	http.HandleFunc("/postProID", p1100.PostProID)
-	http.HandleFunc("/insertAEQPTRESV", p1100.InsertAEQPTRESV)
+	//http.HandleFunc("/insertAEQPTRESV", p1100.InsertAEQPTRESV)
+	http.HandleFunc("/getBayID", p1200.GetBayID)
+	http.HandleFunc("/postBayID", p1200.PostBayID)
 	// ********* Call Oracle ********
 
 	http.ListenAndServe(":6060", nil)
