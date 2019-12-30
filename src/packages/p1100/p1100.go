@@ -171,11 +171,8 @@ func PostProID(w http.ResponseWriter, r *http.Request) {
 			var results []model.AEQPTRESV
 			err2 := db.C("AEQPTRESV").Find(
 				bson.M{
-					"LOT_ID": bbson.RegEx{
-						Pattern: "^" + prodCate,
-						Options: "i",
-					},
-					"NX_OPE_ID": prodID,
+					"LOT_ID": bson.M{"$regex": bbson.RegEx{"^.*" + prodCate + ".*$", "i"}},
+					"NX_OPE_ID": bson.M{"$regex": bbson.RegEx{"^.*" + prodID + ".*$", "i"}},
 					"RESV_DATE": bson.M{
 						"$gte": startDate,
 						"$lte": endDate,

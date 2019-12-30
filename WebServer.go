@@ -1,6 +1,7 @@
 package main
 
 import (
+	model "MES_Model"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -9,6 +10,7 @@ import (
 	p1100 "packages/p1100"
 	p1200 "packages/p1200"
 	rubmats "packages/rubmats"
+	"strings"
 	"time"
 
 	"database/sql"
@@ -455,93 +457,94 @@ func ConnectPostgreSQL(w http.ResponseWriter, r *http.Request) {
 	//w.WriteHeader(http.StatusOK)
 }
 
-// func ConnectOracle(w http.ResponseWriter, r *http.Request) {
-// 	// Oracle
-// 	db, err := sql.Open("goracle", "system/password@198.1.9.189:1521/KVDBP01")
-// 	if err != nil {
-// 		fmt.Println(err)
-// 		return
-// 	}
-// 	fmt.Println("Connected to Oracle!")
-// 	defer db.Close()
-// 	// Oracle
+// ConnectOracle : ConnectOracle
+func ConnectOracle(w http.ResponseWriter, r *http.Request) {
+	// Oracle
+	db, err := sql.Open("goracle", "system/password@198.1.9.189:1521/KVDBP01")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println("Connected to Oracle!")
+	defer db.Close()
+	// Oracle
 
-// 	// MongoDB
-// 	clientOptions := options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
-// 	client, err := mongo.Connect(context.TODO(), clientOptions)
-// 	if err != nil {
-// 		println(err)
-// 	}
-// 	err = client.Ping(context.TODO(), nil)
-// 	if err != nil {
-// 		println(err)
-// 	}
-// 	fmt.Println("Connected to MongoDb!")
-// 	// MongoDB
+	// MongoDB
+	clientOptions := options.Client().ApplyURI("mongodb://admin:admin12345@198.1.1.106:27017/?authSource=KV2MongoDB")
+	client, err := mongo.Connect(context.TODO(), clientOptions)
+	if err != nil {
+		println(err)
+	}
+	err = client.Ping(context.TODO(), nil)
+	if err != nil {
+		println(err)
+	}
+	// MongoDB
 
-// 	rows, err := db.Query("SELECT* FROM PPT1D.AOPER_INSTRUCT")
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	}
-// 	defer rows.Close()
-
-// 	//var abilbdln ABILBDLN
-// 	//var results []*ABILBDLN
-// 	//var filter bson.Raw
-// 	collection := client.Database("KV2MongoDB").Collection("AOPER_INSTRUCT")
-// 	var data []interface{}
-// 	for rows.Next() {
-// 		var elem AOPER_INSTRUCT
-
-// 		if err = rows.Scan(
-// 			&elem.OPE_ID,
-// 			&elem.OPE_VER,
-// 			&elem.INSTRUCT_01,
-// 			&elem.INSTRUCT_02,
-// 			&elem.INSTRUCT_03,
-// 			&elem.INSTRUCT_04,
-// 			&elem.INSTRUCT_05,
-// 			&elem.INSTRUCT_06,
-// 			&elem.INSTRUCT_07,
-// 			&elem.INSTRUCT_08,
-// 			&elem.INSTRUCT_09,
-// 			&elem.INSTRUCT_10,
-// 			&elem.INSTRUCT_11,
-// 			&elem.INSTRUCT_12,
-// 			&elem.INSTRUCT_13,
-// 			&elem.INSTRUCT_14,
-// 			&elem.INSTRUCT_15,
-// 		); err != nil {
-// 			panic(err)
-// 		}
-// 		//results = append(results, &elem)
-// 		filter := bson.D{
-// 			{"OPE_ID", strings.TrimSpace(elem.OPE_ID)},
-// 			{"OPE_VER", strings.TrimSpace(elem.OPE_VER)},
-// 			{"INSTRUCT_01", strings.TrimSpace(elem.INSTRUCT_01)},
-// 			{"INSTRUCT_02", strings.TrimSpace(elem.INSTRUCT_02)},
-// 			{"INSTRUCT_03", strings.TrimSpace(elem.INSTRUCT_03)},
-// 			{"INSTRUCT_04", strings.TrimSpace(elem.INSTRUCT_04)},
-// 			{"INSTRUCT_05", strings.TrimSpace(elem.INSTRUCT_05)},
-// 			{"INSTRUCT_06", strings.TrimSpace(elem.INSTRUCT_06)},
-// 			{"INSTRUCT_07", strings.TrimSpace(elem.INSTRUCT_07)},
-// 			{"INSTRUCT_08", strings.TrimSpace(elem.INSTRUCT_08)},
-// 			{"INSTRUCT_09", strings.TrimSpace(elem.INSTRUCT_09)},
-// 			{"INSTRUCT_10", strings.TrimSpace(elem.INSTRUCT_10)},
-// 			{"INSTRUCT_11", strings.TrimSpace(elem.INSTRUCT_11)},
-// 			{"INSTRUCT_12", strings.TrimSpace(elem.INSTRUCT_12)},
-// 			{"INSTRUCT_13", strings.TrimSpace(elem.INSTRUCT_13)},
-// 			{"INSTRUCT_14", strings.TrimSpace(elem.INSTRUCT_14)},
-// 			{"INSTRUCT_15", strings.TrimSpace(elem.INSTRUCT_15)},
-// 		}
-// 		data = []interface{}{filter}
-// 		insertManyResult, err := collection.InsertMany(context.TODO(), data)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-// 		fmt.Println("Document inserted: ", insertManyResult.InsertedIDs)
-// 	}
-// }
+	rows, err := db.Query("SELECT* FROM PPT1D.AEQPTRESV")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+	collection := client.Database("KV2MongoDB").Collection("AEQPTRESV")
+	var data []interface{}
+	for rows.Next() {
+		var elem model.AEQPTRESV
+		if err = rows.Scan(
+			&elem.LOT_ID,
+			&elem.NX_OPE_NO,
+			&elem.NX_OPE_ID,
+			&elem.NX_OPE_VER,
+			&elem.SPLT_ID,
+			&elem.RESV_EQPT_ID,
+			&elem.LOT_STAT,
+			&elem.RUN_FLAG,
+			&elem.RESV_DATE,
+			&elem.RESV_SHIFT_SEQ,
+			&elem.RESV_COMMENT,
+			&elem.CLAIM_DATE,
+			&elem.CLAIM_TIME,
+			&elem.CLAIM_USER,
+			&elem.MOVE_IN_WEIGHT,
+			&elem.MOVE_OUT_WEIGHT,
+			&elem.PLAN_OPT_WEIGHT,
+			&elem.SHT_CNT,
+			&elem.CR_SHT_CNT,
+			&elem.FIT_EQPTS,
+		); err != nil {
+			panic(err)
+		}
+		//results = append(results, &elem)
+		filter := bson.M{
+			"LOT_ID":          strings.TrimSpace(elem.LOT_ID),
+			"NX_OPE_NO":       strings.TrimSpace(elem.NX_OPE_NO),
+			"NX_OPE_ID":       strings.TrimSpace(elem.NX_OPE_ID),
+			"NX_OPE_VER":      strings.TrimSpace(elem.NX_OPE_VER),
+			"SPLT_ID":         strings.TrimSpace(elem.SPLT_ID),
+			"RESV_EQPT_ID":    strings.TrimSpace(elem.RESV_EQPT_ID),
+			"LOT_STAT":        strings.TrimSpace(elem.LOT_STAT),
+			"RUN_FLAG":        strings.TrimSpace(elem.RUN_FLAG),
+			"RESV_DATE":       strings.TrimSpace(elem.RESV_DATE),
+			"RESV_SHIFT_SEQ":  strings.TrimSpace(elem.RESV_SHIFT_SEQ),
+			"RESV_COMMENT":    strings.TrimSpace(elem.RESV_COMMENT),
+			"CLAIM_DATE":      strings.TrimSpace(elem.CLAIM_DATE),
+			"CLAIM_TIME":      strings.TrimSpace(elem.CLAIM_TIME),
+			"CLAIM_USER":      strings.TrimSpace(elem.CLAIM_USER),
+			"MOVE_IN_WEIGHT":  strings.TrimSpace(elem.FIT_EQPTS),
+			"MOVE_OUT_WEIGHT": elem.MOVE_OUT_WEIGHT,
+			"PLAN_OPT_WEIGHT": elem.PLAN_OPT_WEIGHT,
+			"SHT_CNT":         elem.SHT_CNT,
+			"CR_SHT_CNT":      elem.CR_SHT_CNT,
+			"FIT_EQPTS":       elem.FIT_EQPTS,
+		}
+		data = []interface{}{filter}
+		insertManyResult, err := collection.InsertMany(context.TODO(), data)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Document inserted: ", insertManyResult.InsertedIDs)
+	}
+}
 func main() {
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir("static"))))
 	http.Handle("/register", http.StripPrefix("/register", http.FileServer(http.Dir("pages/register"))))
@@ -568,6 +571,8 @@ func main() {
 	http.Handle("/postgre", http.StripPrefix("/postgre", http.FileServer(http.Dir("pages/postgre"))))
 	http.Handle("/1200", http.StripPrefix("/1200", http.FileServer(http.Dir("pages/1200"))))
 	http.HandleFunc("/connectToPostgreSQL", ConnectPostgreSQL)
+
+	http.HandleFunc("/connectOracle", ConnectOracle)
 
 	//Restful API
 	// r := mux.NewRouter()
